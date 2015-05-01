@@ -3,14 +3,7 @@
 #include <QDebug>
 #include <QPair>
 
-#define __STDC_FORMAT_MACROS
-#include <inttypes.h>
-
-#include <stdio.h>
-#include <stdlib.h>
-
 #include <X11/Xlib.h>
-
 #include "NVCtrl/NVCtrl.h"
 #include "NVCtrl/NVCtrlLib.h"
 
@@ -25,11 +18,10 @@ NvidiaSettings::NvidiaSettings(QObject *parent) :
 {
 }
 
-void NvidiaSettings::setVibrance()
+void NvidiaSettings::setVibrance(int value)
 {
-    assign(NV_CTRL_DIGITAL_VIBRANCE, 1000);
+    assign(NV_CTRL_DIGITAL_VIBRANCE, value);
 }
-
 
 void NvidiaSettings::resetVibrance()
 {
@@ -60,7 +52,7 @@ void NvidiaSettings::assign(NvAttribute attribute, int value)
         return;
     }
 
-    // Loop over each enabled display device
+    // Set the attribute for every enabled display device
     for (int i = 1; i <= dpy_ids[0]; i++) {
 
         int dpy_id = dpy_ids[i];

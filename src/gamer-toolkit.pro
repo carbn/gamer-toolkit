@@ -15,13 +15,15 @@ SOURCES += main.cpp\
     mainwindow.cpp \
     nvidiasettings.cpp \
     bamfclient.cpp \
-    windowmonitor.cpp
+    gamertoolkit.cpp \
+    gameconfiguration.cpp
 
 HEADERS  += mainwindow.h \
     nvidiasettings.h \
     bamfclient.h \
-    windowmonitor.h \
-    nv-control-screen.h
+    nv-control-screen.h \
+    gamertoolkit.h \
+    gameconfiguration.h
 
 FORMS += mainwindow.ui
 

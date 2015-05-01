@@ -5,6 +5,10 @@ BamfClient::BamfClient(QObject *parent) :
     QObject(parent),
     dbusConnection(QDBusConnection::sessionBus())
 {
+    if (!dbusConnection.isConnected()) {
+        qFatal("cannot connect to the d-bus session bus (is the dbus daemon running?)");
+    }
+
     dbusConnection.connect("", "", "org.ayatana.bamf.matcher", "ActiveWindowChanged", this, SLOT(activeWindowChanged(QString, QString)));
 }
 
