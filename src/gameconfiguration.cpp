@@ -1,42 +1,41 @@
 #include "gameconfiguration.h"
 #include <QDebug>
 #include "basemodule.h"
+#include "nvidiamodule.h"
 
 GameConfiguration::GameConfiguration(QString gameName, QString windowName, QObject *parent) :
     QObject(parent),
     gameName(gameName),
     windowName(windowName),
-    modules(),
-    settings()
+    settings(),
+    modules()
 {
+    qDebug() << "[GameConfiguration] loading configuration for" << gameName;
+
     settings.beginGroup(gameName);
 
-    qDebug() << "[GameConfiguration] loading configuration for" << gameName << ", enabled:" << isEnabled();
+    createModules();
 }
 
-bool GameConfiguration::isEnabled() const
+void GameConfiguration::activate()
 {
-    return settings.value("enabled", false).toBool();
-}
+    Q_ASSERT_X(isEnabled(), "activate", "trying to activate a disabled game configuration");
 
-void GameConfiguration::setEnabled(bool enabled)
-{
-    settings.setValue("enabled", enabled);
-}
+    qDebug() << "[GameConfiguration] activating" << gameName;
 
-void GameConfiguration::updateModules(QList<BaseModule*> allModules)
-{
-    foreach (BaseModule *module, allModules)
+    foreach (BaseModule *module, modules)
     {
-        if (module->isEnabled(settings))
-        {
-            qDebug() << "[GameConfiguration] adding enabled module" << module;
-            addModule(module);
-        }
-        else
-        {
-            removeModule(module);
-        }
+        module->activate();
+    }
+}
+
+void GameConfiguration::deactivate()
+{
+    qDebug() << "[GameConfiguration] de-activating" << gameName;
+
+    foreach (BaseModule *module, modules)
+    {
+        module->deactivate();
     }
 }
 
@@ -50,39 +49,19 @@ QString GameConfiguration::getWindowName() const
     return windowName;
 }
 
-void GameConfiguration::addModule(BaseModule *module)
+bool GameConfiguration::isEnabled() const
 {
-    if (!modules.contains(module))
-    {
-        modules.append(module);
-    }
+    return settings.value("enabled", false).toBool();
 }
 
-void GameConfiguration::removeModule(BaseModule *module)
+void GameConfiguration::setEnabled(bool enabled)
 {
-    modules.removeAll(module);
+    settings.setValue("enabled", enabled);
 }
 
-void GameConfiguration::activate()
+void GameConfiguration::createModules()
 {
-    Q_ASSERT_X(isEnabled(), "activate", "trying to activate a disabled game configuration");
+    qDebug() << "[GameConfiguration] creating modules";
 
-    qDebug() << "[GameConfiguration] activating" << gameName;
-
-    foreach (BaseModule *module, modules)
-    {
-        qDebug() << "[GameConfiguration] activating module:" << module;
-        module->activate(settings);
-    }
-}
-
-
-void GameConfiguration::deactivate()
-{
-    qDebug() << "[GameConfiguration] deactivating" << gameName;
-
-    foreach (BaseModule *module, modules)
-    {
-        module->deactivate();
-    }
+    modules.append(new NvidiaModule(&settings, this));
 }

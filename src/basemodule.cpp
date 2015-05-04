@@ -1,8 +1,13 @@
 #include "basemodule.h"
 
-BaseModule::BaseModule(QObject *parent) :
+BaseModule::BaseModule(QSettings *settings, QObject *parent) :
     QObject(parent),
-    active(false)
+    active(false),
+    settings(settings)
+{
+}
+
+BaseModule::~BaseModule()
 {
 }
 
@@ -16,11 +21,22 @@ void BaseModule::setActive(bool active)
     this->active = active;
 }
 
-bool BaseModule::isEnabled(QSettings &settings) const
+bool BaseModule::isEnabled() const
 {
-    settings.beginGroup(getName());
-    bool enabled = settings.value("enabled", false).toBool();
-    settings.endGroup();
+    return getSettingsValue("enabled", false).toBool();
+}
 
-    return enabled;
+void BaseModule::setEnabled(bool enabled)
+{
+    setSettingsValue("enabled", enabled);
+}
+
+QVariant BaseModule::getSettingsValue(QString const& key, QVariant const& defaultValue) const
+{
+    return settings->value(getName() + "/" + key, defaultValue);
+}
+
+void BaseModule::setSettingsValue(QString const& key, QVariant const& value)
+{
+    return settings->setValue(getName() + "/" + key, value);
 }

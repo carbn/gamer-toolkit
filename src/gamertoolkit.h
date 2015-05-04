@@ -2,9 +2,10 @@
 #define GAMERTOOLKIT_H
 
 #include <QObject>
+#include <QList>
 #include "bamfclient.h"
-#include "gameconfiguration.h"
-#include "basemodule.h"
+
+class GameConfiguration;
 
 class GamerToolkit : public QObject
 {
@@ -12,16 +13,11 @@ class GamerToolkit : public QObject
 public:
     explicit GamerToolkit(QObject *parent = 0);
 
-signals:
-
 public slots:
     void activeWindowChanged(QString windowName);
 
 private:
-    void deactivateModules();
-
     BamfClient bamfClient;
-    QList<BaseModule*> modules;
     QList<GameConfiguration*> gameConfigurations;
 
     GameConfiguration* activeWindow;

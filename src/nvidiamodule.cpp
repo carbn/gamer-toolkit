@@ -1,32 +1,33 @@
 #include "nvidiamodule.h"
+#include <QDebug>
 
-NvidiaModule::NvidiaModule(QObject *parent) :
-    BaseModule(parent),
+NvidiaModule::NvidiaModule(QSettings *settings, QObject *parent) :
+    BaseModule(settings, parent),
     nvSettings(),
     vibranceIsActive(false)
 {
+    qDebug() << "[NvidiaModule] created";
 }
 
-void NvidiaModule::activate(QSettings &settings)
+void NvidiaModule::activate()
 {
-    settings.beginGroup(getName());
-    settings.beginGroup("vibrance");
+    qDebug() << "[NvidiaModule] activating";
 
-    if (settings.value("enabled", false).toBool())
+    if (getSettingsValue("vibrance/enabled", false).toBool())
     {
-        nvSettings.setVibrance(settings.value("value", 0).toInt());
+        nvSettings.setVibrance(getSettingsValue("vibrance/value", 0).toInt());
         vibranceIsActive = true;
     }
-
-    settings.endGroup();
-    settings.endGroup();
 }
 
 void NvidiaModule::deactivate()
 {
+    qDebug() << "[NvidiaModule] de-activating";
+
     if (vibranceIsActive)
     {
         nvSettings.setVibrance(0);
+        vibranceIsActive = false;
     }
 }
 

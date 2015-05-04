@@ -10,12 +10,12 @@ class NvidiaModule : public BaseModule
 {
     Q_OBJECT
 public:
-    explicit NvidiaModule(QObject *parent = 0);
+    explicit NvidiaModule(QSettings *settings, QObject *parent);
 
     virtual QString getName() const;
 
 public slots:
-    virtual void activate(QSettings &settings);
+    virtual void activate();
     virtual void deactivate();
 
 private:

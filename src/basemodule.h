@@ -8,20 +8,28 @@ class BaseModule : public QObject
 {
     Q_OBJECT
 public:
-    explicit BaseModule(QObject *parent = 0);
+    explicit BaseModule(QSettings *settings, QObject *parent = 0);
+    virtual ~BaseModule();
+
+    virtual QString getName() const = 0;
+
+    bool isEnabled() const;
+    void setEnabled(bool enabled);
 
     bool isActive() const;
     void setActive(bool active);
 
-    virtual QString getName() const = 0;
-    bool isEnabled(QSettings &settings) const;
-
 public slots:
-    virtual void activate(QSettings &settings) = 0;
+    virtual void activate() = 0;
     virtual void deactivate() = 0;
+
+protected:
+    QVariant getSettingsValue(QString const& key, QVariant const& defaultValue = QVariant()) const;
+    void setSettingsValue(QString const& key, QVariant const& value);
 
 private:
     bool active;
+    QSettings *settings;
 
 };
 

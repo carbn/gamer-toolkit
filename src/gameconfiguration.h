@@ -12,27 +12,22 @@ class GameConfiguration : public QObject
 public:
     explicit GameConfiguration(QString gameName, QString windowName, QObject *parent = 0);
 
+    void activate();
+    void deactivate();
+
     QString getGameName() const;
     QString getWindowName() const;
 
     bool isEnabled() const;
     void setEnabled(bool enabled);
 
-    void updateModules(QList<BaseModule*> allModules);
-
-public slots:
-    void addModule(BaseModule *module);
-    void removeModule(BaseModule *module);
-
-    void activate();
-    void deactivate();
-
 private:
+    void createModules();
+
     QString gameName;
     QString windowName;
-    QList<BaseModule*> modules;
     QSettings settings;
-
+    QList<BaseModule*> modules;
 };
 
 #endif // GAMECONFIGURATION_H
