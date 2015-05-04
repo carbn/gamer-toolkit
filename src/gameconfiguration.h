@@ -2,6 +2,9 @@
 #define GAMECONFIGURATION_H
 
 #include <QObject>
+#include <QSettings>
+
+class BaseModule;
 
 class GameConfiguration : public QObject
 {
@@ -12,17 +15,23 @@ public:
     QString getGameName() const;
     QString getWindowName() const;
 
-signals:
-    void setVibrance(int);
-    void resetVibrance();
+    bool isEnabled() const;
+    void setEnabled(bool enabled);
+
+    void updateModules(QList<BaseModule*> allModules);
 
 public slots:
+    void addModule(BaseModule *module);
+    void removeModule(BaseModule *module);
+
     void activate();
     void deactivate();
 
 private:
     QString gameName;
     QString windowName;
+    QList<BaseModule*> modules;
+    QSettings settings;
 
 };
 

@@ -3,8 +3,8 @@
 
 #include <QObject>
 #include "bamfclient.h"
-#include "nvidiasettings.h"
 #include "gameconfiguration.h"
+#include "basemodule.h"
 
 class GamerToolkit : public QObject
 {
@@ -18,8 +18,10 @@ public slots:
     void activeWindowChanged(QString windowName);
 
 private:
-    NvidiaSettings nvSettings;
+    void deactivateModules();
+
     BamfClient bamfClient;
+    QList<BaseModule*> modules;
     QList<GameConfiguration*> gameConfigurations;
 
     GameConfiguration* activeWindow;

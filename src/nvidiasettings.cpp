@@ -20,11 +20,15 @@ NvidiaSettings::NvidiaSettings(QObject *parent) :
 
 void NvidiaSettings::setVibrance(int value)
 {
+    qDebug() << "[NvidiaSettings] setting vibrance to" << value;
+
     assign(NV_CTRL_DIGITAL_VIBRANCE, value);
 }
 
 void NvidiaSettings::resetVibrance()
 {
+    qDebug() << "[NvidiaSettings] vibrance reset";
+
     assign(NV_CTRL_DIGITAL_VIBRANCE, 0);
 }
 
@@ -35,7 +39,7 @@ void NvidiaSettings::assign(NvAttribute attribute, int value)
 
     if (!dpy)
     {
-        qCritical() << "cannot open display" << XDisplayName(NULL);
+        qCritical() << "[NvidiaSettings] cannot open display" << XDisplayName(NULL);
         return;
     }
 
@@ -48,7 +52,7 @@ void NvidiaSettings::assign(NvAttribute attribute, int value)
 
     if (!ret)
     {
-        qCritical() << "unable to determine enabled display devices for screen" << screen << "of" << XDisplayName(NULL);
+        qCritical() << "[NvidiaSettings] unable to determine enabled display devices for screen" << screen << "of" << XDisplayName(NULL);
         return;
     }
 
@@ -60,6 +64,4 @@ void NvidiaSettings::assign(NvAttribute attribute, int value)
         XNVCTRLSetTargetAttribute(dpy, NV_CTRL_TARGET_TYPE_DISPLAY, dpy_id, 0, attribute, value);
         XFlush(dpy);
     }
-
-    qDebug() << "digital vibrance set to" << value;
 }

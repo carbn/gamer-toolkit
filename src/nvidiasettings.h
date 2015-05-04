@@ -10,7 +10,7 @@ public:
     explicit NvidiaSettings(QObject *parent = 0);
 
 public slots:
-    void setVibrance(int);
+    void setVibrance(int value);
     void resetVibrance();
 
 private:

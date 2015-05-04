@@ -14,12 +14,10 @@ BamfClient::BamfClient(QObject *parent) :
 
 void BamfClient::activeWindowChanged(QString old, QString current)
 {
-    qDebug() << "activeWindowChanged(" << old << "," << current << ")";
-
     QString oldWindowName = getWindowName(old);
     QString currentWindowName = getWindowName(current);
 
-    qDebug() << "window changed" << oldWindowName << "->" << currentWindowName;
+    qDebug() << "[BamfClient] window changed:" << oldWindowName << "->" << currentWindowName;
 
     emit activeWindowChanged(currentWindowName);
 }

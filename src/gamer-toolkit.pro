@@ -11,19 +11,25 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = gamer-toolkit
 TEMPLATE = app
 
+CONFIG += c++11
+
 SOURCES += main.cpp\
     mainwindow.cpp \
     nvidiasettings.cpp \
     bamfclient.cpp \
     gamertoolkit.cpp \
-    gameconfiguration.cpp
+    gameconfiguration.cpp \
+    basemodule.cpp \
+    nvidiamodule.cpp
 
 HEADERS  += mainwindow.h \
     nvidiasettings.h \
     bamfclient.h \
     nv-control-screen.h \
     gamertoolkit.h \
-    gameconfiguration.h
+    gameconfiguration.h \
+    basemodule.h \
+    nvidiamodule.h
 
 FORMS += mainwindow.ui
 

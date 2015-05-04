@@ -4,6 +4,8 @@
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setOrganizationName("GamerToolkit");
+
     QApplication a(argc, argv);
 
     GamerToolkit toolkit;
