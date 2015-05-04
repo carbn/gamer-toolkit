@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     gamertoolkit.cpp \
     gameconfiguration.cpp \
     basemodule.cpp \
-    nvidiamodule.cpp
+    nvidiamodule.cpp \
+    customcommandmodule.cpp
 
 HEADERS  += mainwindow.h \
     nvidiasettings.h \
@@ -29,7 +30,8 @@ HEADERS  += mainwindow.h \
     gamertoolkit.h \
     gameconfiguration.h \
     basemodule.h \
-    nvidiamodule.h
+    nvidiamodule.h \
+    customcommandmodule.h
 
 FORMS += mainwindow.ui
 

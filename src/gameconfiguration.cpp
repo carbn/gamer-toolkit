@@ -1,6 +1,7 @@
 #include "gameconfiguration.h"
 #include <QDebug>
 #include "basemodule.h"
+#include "customcommandmodule.h"
 #include "nvidiamodule.h"
 
 GameConfiguration::GameConfiguration(QString gameName, QString windowName, QObject *parent) :
@@ -63,5 +64,6 @@ void GameConfiguration::createModules()
 {
     qDebug() << "[GameConfiguration] creating modules";
 
+    modules.append(new CustomCommandModule(&settings, this));
     modules.append(new NvidiaModule(&settings, this));
 }
