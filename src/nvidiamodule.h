@@ -12,8 +12,6 @@ class NvidiaModule : public BaseModule
 public:
     explicit NvidiaModule(QSettings *settings, QObject *parent);
 
-    virtual QString getName() const;
-
 public slots:
     virtual void activate();
     virtual void deactivate();

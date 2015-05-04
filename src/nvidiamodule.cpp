@@ -30,8 +30,3 @@ void NvidiaModule::deactivate()
         vibranceIsActive = false;
     }
 }
-
-QString NvidiaModule::getName() const
-{
-    return "nvidia";
-}

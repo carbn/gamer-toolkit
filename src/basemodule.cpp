@@ -1,4 +1,6 @@
 #include "basemodule.h"
+#include <QDebug>
+#include <QSettings>
 
 BaseModule::BaseModule(QSettings *settings, QObject *parent) :
     QObject(parent),
@@ -33,10 +35,15 @@ void BaseModule::setEnabled(bool enabled)
 
 QVariant BaseModule::getSettingsValue(QString const& key, QVariant const& defaultValue) const
 {
-    return settings->value(getName() + "/" + key, defaultValue);
+    return settings->value(getSettingsPrefix() + "/" + key, defaultValue);
 }
 
 void BaseModule::setSettingsValue(QString const& key, QVariant const& value)
 {
-    return settings->setValue(getName() + "/" + key, value);
+    return settings->setValue(getSettingsPrefix() + "/" + key, value);
+}
+
+QString BaseModule::getSettingsPrefix() const
+{
+    return metaObject()->className();
 }

@@ -2,7 +2,9 @@
 #define BASEMODULE_H
 
 #include <QObject>
-#include <QSettings>
+#include <QVariant>
+
+class QSettings;
 
 class BaseModule : public QObject
 {
@@ -10,8 +12,6 @@ class BaseModule : public QObject
 public:
     explicit BaseModule(QSettings *settings, QObject *parent = 0);
     virtual ~BaseModule();
-
-    virtual QString getName() const = 0;
 
     bool isEnabled() const;
     void setEnabled(bool enabled);
@@ -28,6 +28,8 @@ protected:
     void setSettingsValue(QString const& key, QVariant const& value);
 
 private:
+    QString getSettingsPrefix() const;
+
     bool active;
     QSettings *settings;
 
